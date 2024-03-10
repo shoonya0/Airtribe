@@ -1,59 +1,198 @@
-# Airtribe
+# Airtribe Web Application
 
-Airtribe is a web application designed to manage courses, instructors, learners (leads), and comments within an educational platform.
+This is a web application built using Node.js, Express, and MySQL database to handle API requests for Airtribe services.
 
-## Table of Contents
-- [Introduction](#introduction)
-- [Database Schema](#database-schema)
-- [Node.js Application](#nodejs-application)
-- [Routes](#routes)
-- [Usage](#usage)
-- [Contributing](#contributing)
-- [License](#license)
+## Features
 
-## Introduction
+- Handles HTTP requests (GET, POST, PUT, DELETE) using Express routing.
+- Utilizes MySQL database to store and retrieve data.
 
-Airtribe is a project aimed at facilitating the management of courses, instructors, learners, and comments within an educational platform. It provides functionalities to create and manage courses, register learners, and allow instructors to add comments against learners.
+## Setup Instructions
 
-## Database Schema
+To set up and run this project locally, follow these steps:
 
-The database schema for Airtribe consists of the following tables:
+### Prerequisites
 
-1. **Instructors**: Stores information about instructors.
-2. **Courses**: Stores information about courses, including the instructor associated with each course.
-3. **Leads**: Stores information about learners (leads) applying for courses, along with their associated courses and instructors.
-4. **Comments**: Stores comments made by instructors against leads.
+- Node.js and npm installed on your machine.
+- MySQL database installed and running locally.
 
-## Node.js Application
+### Installation for Node.js
 
-The Node.js application for Airtribe is responsible for handling HTTP requests and interacting with the database. It utilizes the Express.js framework for routing and MySQL for database operations.
+1. Clone this repository to your local machine:
 
-## Routes
+    ```bash
+    git clone https://github.com/your-username/airtribe-web-app.git
+    ```
 
-The following routes are defined in the Node.js application:
+2. Navigate to the project directory:
 
-- **GET /leads**: Retrieves leads based on a search query (either email or name).
-- **POST /courses**: Adds a new course to the database.
-- **POST /courses/:course_id/register**: Registers a learner for a specific course.
-- **POST /leads/:lead_id/comment**: Adds a comment from an instructor against a lead.
-- **POST /instructors/register**: Registers a new instructor.
-- **PUT /courses/:course_id**: Updates the details of a course.
-- **PUT /leads/:lead_id**: Updates the status of a lead.
+    ```bash
+    cd airtribe-web-app
+    ```
+
+3. Install dependencies:
+
+    ```bash
+    npm install
+    ```
+
+4. Set up MySQL database:
+   
+   - Make sure your MySQL server is running.
+   - Create a new database named `airtribe`.
+   - Update the `user` and `password` fields in the `app.js` file with your MySQL credentials.
+
+### Usage
+
+1. Start the server:
+
+    ```bash
+    node app.js
+    ```
+
+2. Access the application in your web browser at `http://localhost:3000`.
+
+## API Routes
+
+- **GET /api/v1** - Retrieve data from the database.
+- **POST /api/v1** - Add new data to the database.
+- **PUT /api/v1** - Update existing data in the database.
+- **DELETE /api/v1** - Delete data from the database.
+
+
+## API Routes
+
+### Adding a New Lead
+
+- **POST /api/v1/courses** - Add a new lead to the database.
+
+```javascript
+// Request Body:
+{
+    "course_name": "Course Name",
+    "description": "Course Description",
+    "instructor_id": "Instructor ID",
+    "max_seats": "Max Seats",
+    "start_date": "Start Date",
+    "end_date": "End Date"
+}
+```
+
+### Registering for a Course
+
+- **POST /api/v1/courses/:course_id/register** - Register for a course.
+```javascript
+// Request Body:
+{
+    "name": "Your Name",
+    "email": "Your Email",
+    "instructor_id": "Instructor ID",
+    "linkedin_profile": "LinkedIn Profile"
+}
+```
+
+### Adding a Comment
+
+- **POST /api/v1/leads/:lead_id/comment** - Add a comment for a lead.
+```javascript
+// Request Body:
+{
+    "comment": "Your Comment",
+    "instructor_id": "Instructor ID"
+}
+```
+
+### Registering a New Instructor
+- **POST /api/v1/instructors/register** - Register a new instructor.
+```javascript
+// Request Body:
+{
+    "name": "Instructor Name",
+    "email": "Instructor Email"
+}
+```
+
+### Updating Course Details
+
+- **PUT /api/v1/courses/:course_id** - Update course details.
+
+```javascript
+// Request Body:
+{
+    "course_name": "New Course Name",
+    "description": "New Course Description",
+    "instructor_id": "New Instructor ID",
+    "max_seats": "New Max Seats",
+    "start_date": "New Start Date",
+    "end_date": "New End Date"
+}
+```
+
+### Updating Lead Details
+- **PUT /api/v1/leads/:lead_id** - Update lead details.
+```javascript
+// Request Body:
+{
+    "status": "New Status"
+}
+```
+### Retrieving Leads
+
+- **GET /api/v1/leads?search=:search_query** - Retrieve leads by email or name.
+
+    - **Query Parameters:**
+        - `search`: Search query by email or name.
+
+    - **Response:**
+        - Returns leads matching the search query.
+
+# Airtribe Database Schema
+
+This SQL script defines the schema for the Airtribe database, which includes tables for instructors, courses, leads, and comments.
+
+## Schema Overview
+
+### Instructors Table
+
+- Stores information about instructors.
+- Each instructor has a unique ID, name, email, and creation timestamp.
+
+### Courses Table
+
+- Stores information about courses offered.
+- Each course has a unique ID, name, description, instructor ID, maximum seats, start date, end date, and creation timestamp.
+- Instructor ID is a foreign key referencing the Instructors table.
+
+### Leads Table
+
+- Stores information about leads or learners applying for courses.
+- Each lead has a unique ID, name, email, course ID, instructor ID, LinkedIn profile, status, and creation timestamp.
+- Course ID and Instructor ID are foreign keys referencing the Courses and Instructors tables respectively.
+
+### Comments Table
+
+- Stores comments added by instructors against leads.
+- Each comment has a unique ID, text, lead ID, instructor ID, and creation timestamp.
+- Lead ID and Instructor ID are foreign keys referencing the Leads and Instructors tables respectively.
 
 ## Usage
 
-To use the Airtribe application, follow these steps:
+1. **Database Creation:**
 
-1. Set up the database by executing the provided SQL script (`Airtribe.sql`).
-2. Configure the Node.js application to connect to the database (`app.js`).
-3. Start the Node.js server by running `node app.js`.
-4. Access the application through the defined routes to perform CRUD operations on courses, leads, and instructors.
+    - Run the SQL script to create the Airtribe database and its tables.
 
-## Contributing
+2. **Database Interaction:**
 
-Contributions to Airtribe are welcome! If you have any suggestions, bug reports, or feature requests, please feel free to open an issue or submit a pull request.
+    - Use SQL queries to interact with the database, such as inserting, updating, or querying data.
+
+3. **Example Queries:**
+
+    - Example queries are provided within the script to demonstrate data manipulation and retrieval.
+
+## Contributors
+
+- [Krishan](https://github.com/shoonya0)
 
 ## License
 
-This project is licensed under the [MIT License](LICENSE.md).
-
+This project is licensed under the [MIT License](LICENSE).
