@@ -1,0 +1,17 @@
+{
+  "name": "airtribe-course-backend",
+  "version": "1.0.0",
+  "description": "Airtribe course backend in Node.js: create/update courses, manage applications, update lead status, search leads, and add comments.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Krishan Singh",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.18.3",
+    "mysql": "^2.18.1",
+    "nodemon": "^3.1.0"
+  },
+  "keywords": []
+}
