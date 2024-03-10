@@ -1,7 +1,5 @@
-create schema Airtribe;
-
 -- Path: Airtribe.sql
-
+create schema Airtribe;
 
 -- Database relations:
 -- - There are multiple instructors on Airtribe.
@@ -74,4 +72,5 @@ create table Comments (
 ```
 
 
+-- Drop the database
 drop database Airtribe;
