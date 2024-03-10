@@ -21,9 +21,10 @@
         console.log("Press Ctrl+C to quit.")
     });
 
-
+    // Import the MYSQLDB module
     const mysql = require('mysql');
 
+    // Create a connection to the database
     const MYSQLDB = mysql.createConnection({
         host: 'localhost',
         connectionLimit: 10,
@@ -32,17 +33,8 @@
         database:'airtribe'
     });
 
+    // Connect to the database
     module.exports = MYSQLDB;
-
-
-
-    // Now that we have a server listening on a port, we can define routes that will handle incoming requests.
-    app.get('/', (req, res) => {
-      res.send('Hello, World!');
-    });
-    
-
-
 
     // creating a route to handle a GET request
     const getRoute = require('./getRoute');
